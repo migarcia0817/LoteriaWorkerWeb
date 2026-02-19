@@ -105,16 +105,8 @@ namespace LoteriaWorkerWeb
 
         private string NormalizarNombre(string nombre, string hora)
         {
-            // Asegurar espacio antes de AM/PM
-            string horaNormalizada = hora.Replace("AM", " AM").Replace("PM", " PM");
-
-            // Añadir cero delante si es < 10
-            if (horaNormalizada.StartsWith("8:")) horaNormalizada = "08:00 AM";
-            if (horaNormalizada.StartsWith("9:") && horaNormalizada.Contains("AM")) horaNormalizada = "09:00 AM";
-            if (horaNormalizada.StartsWith("10:")) horaNormalizada = "10:00 AM";
-            if (horaNormalizada.StartsWith("11:")) horaNormalizada = "11:00 AM";
-            if (horaNormalizada.StartsWith("12:") && horaNormalizada.Contains("PM")) horaNormalizada = "12:00 PM";
-
+            // Centralizar la normalización en HoraHelper
+            string horaNormalizada = HoraHelper.Normalizar(hora);
             // Anguilla
             if (nombre.StartsWith("Anguilla"))
                 return $"Anguilla {horaNormalizada}";
@@ -133,16 +125,16 @@ namespace LoteriaWorkerWeb
             // King Lottery Día/Noche
             if (nombre.StartsWith("King Lottery"))
             {
-                if (nombre.Contains("Día") || hora.Contains("12:30 PM"))
+                if (nombre.Contains("Día") || horaNormalizada.Contains("12:30 PM"))
                     return "King Lotery 12:30 PM";
-                if (nombre.Contains("Noche") || hora.Contains("7:30 PM"))
+                if (nombre.Contains("Noche") || horaNormalizada.Contains("7:30 PM"))
                     return "King Lotery 7:30 PM";
             }
 
             // Real → Q.Real
             if (nombre.StartsWith("Real"))
             {
-                if (horaNormalizada.Contains("12:00 PM")) return "Q.Real Tarde 1:00 PM";
+                if (horaNormalizada.Contains("1:00 PM")) return "Q.Real Tarde 1:00 PM";
             }
 
             // Florida
@@ -173,14 +165,20 @@ namespace LoteriaWorkerWeb
         }
 
 
+
         private async Task GuardarResultadosEnFirebase(List<(string Loteria, string Fecha, string Hora, string Numero)> resultados)
         {
             foreach (var grupo in resultados.GroupBy(r => r.Loteria))
             {
                 var loteriaNombre = grupo.Key;
-                var fechaTexto = grupo.First().Fecha;
-                var fechaNormalizada = DateTime.Now.ToString("yyyy-MM-dd"); // puedes parsear fechaTexto si lo prefieres
-                var hora = grupo.First().Hora;
+                //  var fechaTexto = grupo.First().Fecha;
+                //  var fechaNormalizada = DateTime.Now.ToString("yyyy-MM-dd"); // puedes parsear fechaTexto si lo prefieres
+                var fechaNormalizada = FechaHelper.GetFechaLocal();
+                var horaLocal = FechaHelper.GetHoraLocal();
+                var santoDomingoTZ = TimeZoneInfo.FindSystemTimeZoneById("America/Santo_Domingo");
+                var fechaNormalizada = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, santoDomingoTZ)
+                                                   .ToString("yyyy-MM-dd");
+
 
                 // Excluir todas las loterías de Haiti Bolet y LoteDom
                 if (loteriaNombre.Contains("Haiti Bolet") || loteriaNombre.Contains("LoteDom"))
