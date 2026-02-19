@@ -129,6 +129,9 @@ namespace LoteriaWorkerWeb
             {
                 if (horaNormalizada.Contains("12:00 PM")) return "Suerte 12:30 PM";
                 if (horaNormalizada.Contains("6:00 PM")) return "Suerte 6:00 PM";
+
+                _logger.LogWarning("⚠️ No se encontró clave para La Suerte, se omite.");
+                return null;
             }
 
             // King Lottery Día/Noche
@@ -141,8 +144,13 @@ namespace LoteriaWorkerWeb
             }
 
             // Real → Q.Real
-            if (nombre.StartsWith("Real") && horaNormalizada.Contains("1:00 PM"))
-                return "Q.Real Tarde 1:00 PM";
+            if (nombre.StartsWith("Real"))
+            {
+                if (horaNormalizada.Contains("1:00 PM")) return "Q.Real Tarde 1:00 PM";
+
+                _logger.LogWarning("⚠️ No se encontró clave para Real, se omite.");
+                return null;
+            }
 
             // Florida
             if (nombre.StartsWith("Florida"))
@@ -170,6 +178,7 @@ namespace LoteriaWorkerWeb
 
             return nombre.Trim();
         }
+
 
 
 
