@@ -1,6 +1,7 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
 using HtmlAgilityPack;
+using LoteriaWorkerWeb.Helpers;
 
 namespace LoteriaWorkerWeb
 {
@@ -105,8 +106,12 @@ namespace LoteriaWorkerWeb
 
         private string NormalizarNombre(string nombre, string hora)
         {
+            if (string.IsNullOrWhiteSpace(nombre))
+                return nombre;
+
             // Centralizar la normalización en HoraHelper
             string horaNormalizada = HoraHelper.Normalizar(hora);
+
             // Anguilla
             if (nombre.StartsWith("Anguilla"))
                 return $"Anguilla {horaNormalizada}";
@@ -132,10 +137,8 @@ namespace LoteriaWorkerWeb
             }
 
             // Real → Q.Real
-            if (nombre.StartsWith("Real"))
-            {
-                if (horaNormalizada.Contains("1:00 PM")) return "Q.Real Tarde 1:00 PM";
-            }
+            if (nombre.StartsWith("Real") && horaNormalizada.Contains("1:00 PM"))
+                return "Q.Real Tarde 1:00 PM";
 
             // Florida
             if (nombre.StartsWith("Florida"))
@@ -161,8 +164,9 @@ namespace LoteriaWorkerWeb
             if (nombre.StartsWith("Gana Más"))
                 return "Nac.Tarde 2:55 PM";
 
-            return nombre;
+            return nombre.Trim();
         }
+
 
 
 
@@ -171,22 +175,21 @@ namespace LoteriaWorkerWeb
             foreach (var grupo in resultados.GroupBy(r => r.Loteria))
             {
                 var loteriaNombre = grupo.Key;
-                //  var fechaTexto = grupo.First().Fecha;
-                //  var fechaNormalizada = DateTime.Now.ToString("yyyy-MM-dd"); // puedes parsear fechaTexto si lo prefieres
+                var fechaTexto = grupo.First().Fecha;
+
+                // Usa FechaHelper en vez de duplicar variable
                 var fechaNormalizada = FechaHelper.GetFechaLocal();
-                var horaLocal = FechaHelper.GetHoraLocal();
-                var santoDomingoTZ = TimeZoneInfo.FindSystemTimeZoneById("America/Santo_Domingo");
-                var fechaNormalizada = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, santoDomingoTZ)
-                                                   .ToString("yyyy-MM-dd");
 
+                var hora = grupo.First().Hora;
 
-                // Excluir todas las loterías de Haiti Bolet y LoteDom
+                // Excluir loterías no deseadas
                 if (loteriaNombre.Contains("Haiti Bolet") || loteriaNombre.Contains("LoteDom"))
                 {
                     Console.WriteLine($"⏭️ Excluyendo {loteriaNombre}");
                     continue;
                 }
 
+                // Normalizar nombre con HoraHelper
                 var nombreNormalizado = NormalizarNombre(loteriaNombre, hora);
 
                 if (!LoteriaClaves.TryGetValue(nombreNormalizado, out var loteriaClave))
@@ -195,7 +198,6 @@ namespace LoteriaWorkerWeb
                     continue;
                 }
 
-                // Tomar los primeros 3 números como premios
                 var numeros = grupo.Select(r => r.Numero).Take(3).ToList();
                 var primerPremio = numeros.ElementAtOrDefault(0) ?? "";
                 var segundoPremio = numeros.ElementAtOrDefault(1) ?? "";
@@ -217,6 +219,7 @@ namespace LoteriaWorkerWeb
                         TercerPremio = tercerPremio
                     });
             }
+
         }
     }
 }
