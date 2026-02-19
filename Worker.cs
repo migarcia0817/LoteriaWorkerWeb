@@ -127,12 +127,18 @@ namespace LoteriaWorkerWeb
             // La Suerte
             if (nombre.StartsWith("La Suerte"))
             {
-                if (horaNormalizada.Contains("12:00 PM")) return "Suerte 12:30 PM";
-                if (horaNormalizada.Contains("6:00 PM")) return "Suerte 6:00 PM";
+                // Caso 12:30 PM
+                if (horaNormalizada.Contains("12:30 PM") || horaNormalizada.Contains("12 PM"))
+                    return "Suerte 12:30 PM";
 
-                _logger.LogWarning("⚠️ No se encontró clave para La Suerte, se omite.");
+                // Caso 6:00 PM
+                if (horaNormalizada.Contains("6:00 PM") || horaNormalizada.Contains("6PM"))
+                    return "Suerte 6:00 PM";
+
+                _logger.LogWarning($"⚠️ No se encontró clave para La Suerte ({horaNormalizada}), se omite.");
                 return null;
             }
+
 
             // King Lottery Día/Noche
             if (nombre.StartsWith("King Lottery"))
