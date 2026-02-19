@@ -54,21 +54,25 @@ namespace LoteriaWorkerWeb
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                // Heartbeat log para confirmar que el Worker sigue activo
+                _logger.LogInformation($"⏱️ Worker activo: {DateTime.Now}");
+
                 _logger.LogInformation("Scrapeando resultados de lotería...");
 
                 var resultados = await ObtenerNumerosGanadoresAsync();
                 await GuardarResultadosEnFirebase(resultados);
 
                 _logger.LogInformation("Resultados guardados en Firebase.");
-                //cada 30 minuto se actualiza 
+
+                // Espera de 30 minutos antes del próximo ciclo
                 await Task.Delay(TimeSpan.FromMinutes(30), stoppingToken);
 
-
+                // Opciones alternativas (comentadas)
                 // await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
-
                 // await Task.Delay(TimeSpan.FromHours(24), stoppingToken);
             }
         }
+
 
         private async Task<List<(string Loteria, string Fecha, string Hora, string Numero)>> ObtenerNumerosGanadoresAsync()
         {
