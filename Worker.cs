@@ -111,7 +111,7 @@ namespace LoteriaWorkerWeb
         private string NormalizarNombre(string nombre, string hora)
         {
             if (string.IsNullOrWhiteSpace(nombre))
-                return nombre;
+                return null; // ⚠️ devolver null explícito si no hay nombre
 
             // Centralizar la normalización en HoraHelper
             string horaNormalizada = HoraHelper.Normalizar(hora);
@@ -127,18 +127,15 @@ namespace LoteriaWorkerWeb
             // La Suerte
             if (nombre.StartsWith("La Suerte"))
             {
-                // Caso 12:30 PM
                 if (horaNormalizada.Contains("12:30 PM") || horaNormalizada.Contains("12 PM"))
                     return "Suerte 12:30 PM";
 
-                // Caso 6:00 PM
                 if (horaNormalizada.Contains("6:00 PM") || horaNormalizada.Contains("6PM"))
                     return "Suerte 6:00 PM";
 
                 _logger.LogWarning($"⚠️ No se encontró clave para La Suerte ({horaNormalizada}), se omite.");
                 return null;
             }
-
 
             // King Lottery Día/Noche
             if (nombre.StartsWith("King Lottery"))
@@ -154,7 +151,7 @@ namespace LoteriaWorkerWeb
             {
                 if (horaNormalizada.Contains("1:00 PM")) return "Q.Real Tarde 1:00 PM";
 
-                _logger.LogWarning("⚠️ No se encontró clave para Real, se omite.");
+                _logger.LogWarning($"⚠️ No se encontró clave para Real ({horaNormalizada}), se omite.");
                 return null;
             }
 
@@ -182,7 +179,9 @@ namespace LoteriaWorkerWeb
             if (nombre.StartsWith("Gana Más"))
                 return "Nac.Tarde 2:55 PM";
 
-            return nombre.Trim();
+            // 🔹 Si no se reconoce, loguear y devolver null
+            _logger.LogWarning($"⚠️ Nombre de lotería no reconocido: {nombre} ({horaNormalizada}), se omite.");
+            return null;
         }
 
 
@@ -191,29 +190,37 @@ namespace LoteriaWorkerWeb
 
         private async Task GuardarResultadosEnFirebase(List<(string Loteria, string Fecha, string Hora, string Numero)> resultados)
         {
+            int guardados = 0;
+            int omitidosClaveNula = 0;
+            int omitidosSinDiccionario = 0;
+
             foreach (var grupo in resultados.GroupBy(r => r.Loteria))
             {
                 var loteriaNombre = grupo.Key;
-                var fechaTexto = grupo.First().Fecha;
-
-                // Usa FechaHelper en vez de duplicar variable
                 var fechaNormalizada = FechaHelper.GetFechaLocal();
-
                 var hora = grupo.First().Hora;
 
                 // Excluir loterías no deseadas
                 if (loteriaNombre.Contains("Haiti Bolet") || loteriaNombre.Contains("LoteDom"))
                 {
-                    Console.WriteLine($"⏭️ Excluyendo {loteriaNombre}");
+                    _logger.LogInformation($"⏭️ Excluyendo {loteriaNombre}");
                     continue;
                 }
 
-                // Normalizar nombre con HoraHelper
+                // Normalizar nombre
                 var nombreNormalizado = NormalizarNombre(loteriaNombre, hora);
+
+                if (string.IsNullOrWhiteSpace(nombreNormalizado))
+                {
+                    omitidosClaveNula++;
+                    _logger.LogWarning($"⚠️ Nombre normalizado nulo para {loteriaNombre} ({hora}), se omite.");
+                    continue;
+                }
 
                 if (!LoteriaClaves.TryGetValue(nombreNormalizado, out var loteriaClave))
                 {
-                    Console.WriteLine($"⚠️ No se encontró clave para {nombreNormalizado}, se omite.");
+                    omitidosSinDiccionario++;
+                    _logger.LogWarning($"⚠️ No se encontró clave en el diccionario para {nombreNormalizado}, se omite.");
                     continue;
                 }
 
@@ -222,7 +229,7 @@ namespace LoteriaWorkerWeb
                 var segundoPremio = numeros.ElementAtOrDefault(1) ?? "";
                 var tercerPremio = numeros.ElementAtOrDefault(2) ?? "";
 
-                Console.WriteLine($"Guardando: {nombreNormalizado} ({fechaNormalizada}) - {primerPremio}, {segundoPremio}, {tercerPremio}");
+                _logger.LogInformation($"✅ Guardando: {nombreNormalizado} ({fechaNormalizada}) - {primerPremio}, {segundoPremio}, {tercerPremio}");
 
                 await firebaseClient
                     .Child("Resultados")
@@ -237,8 +244,15 @@ namespace LoteriaWorkerWeb
                         SegundoPremio = segundoPremio,
                         TercerPremio = tercerPremio
                     });
+
+                guardados++;
             }
 
+            // 🔹 Resumen final del ciclo
+            _logger.LogInformation($"📊 Resumen ciclo: Guardados={guardados}, OmitidosClaveNula={omitidosClaveNula}, OmitidosSinDiccionario={omitidosSinDiccionario}");
         }
+
+
     }
+}
 }
