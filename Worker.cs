@@ -36,7 +36,7 @@ namespace LoteriaWorkerWeb
         { "Primera 12 PM", "Primera_1200_PM"},
         { "Primera 8 PM", "Primera_800_PM"},
         { "Q.Real Tarde 12:55 PM", "QRealTarde_1255_PM" },
-        { "FL.Tarde 1:30 PM", "FLTarde_130_PM"},
+        { "FL.Tarde  2:30 PM", "FLTarde_230_PM"},
         { "FL.Noche 10:45 PM", "FLNoche_1045_PM"},
         { "Loteka 7:55 PM", "Loteka_755_PM"},
         { "Leisa 8:55 PM", "Leisa_855_PM"},
@@ -159,7 +159,13 @@ namespace LoteriaWorkerWeb
 
             // Florida
             if (nombre.StartsWith("Florida"))
-                return horaNormalizada.Contains("1:30 PM") ? "FL.Tarde 1:30 PM" : "FL.Noche 10:45 PM";
+            {
+                if (horaNormalizada.Contains("2:30 PM"))
+                    return "FL.Tarde 2:30 PM";
+                else if (horaNormalizada.Contains("10:45 PM"))
+                    return "FL.Noche 10:45 PM";
+            }
+
 
             // New York
             if (nombre.StartsWith("New York"))
