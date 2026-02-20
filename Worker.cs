@@ -122,7 +122,12 @@ namespace LoteriaWorkerWeb
 
             // La Primera
             if (nombre.StartsWith("La Primera"))
-                return horaNormalizada.Contains("12:00 PM") ? "Primera 12 PM" : "Primera 8 PM";
+            {
+                if (horaNormalizada == "12:00 PM")
+                    return "Primera 12 PM";
+                else if (horaNormalizada == "8:00 PM")
+                    return "Primera 8 PM";
+            }
 
             // La Suerte
             if (nombre.StartsWith("La Suerte"))
