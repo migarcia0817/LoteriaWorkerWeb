@@ -35,7 +35,7 @@ namespace LoteriaWorkerWeb
         { "Suerte 6:00 PM", "Suerte_600_PM"},
         { "Primera 12 PM", "Primera_1200_PM"},
         { "Primera 8 PM", "Primera_800_PM"},
-        { "Q.Real Tarde 1:00 PM", "QRealTarde_100_PM"},
+        { "Q.Real Tarde 12:55 PM", "QRealTarde_1255_PM" },
         { "FL.Tarde 1:30 PM", "FLTarde_130_PM"},
         { "FL.Noche 10:45 PM", "FLNoche_1045_PM"},
         { "Loteka 7:55 PM", "Loteka_755_PM"},
@@ -150,10 +150,12 @@ namespace LoteriaWorkerWeb
             if (nombre.StartsWith("Real"))
             {
                 if (horaNormalizada.Contains("1:00 PM")) return "Q.Real Tarde 1:00 PM";
+                if (horaNormalizada.Contains("12:55 PM")) return "Q.Real Tarde 12:55 PM";
 
                 _logger.LogWarning($"⚠️ No se encontró clave para Real ({horaNormalizada}), se omite.");
                 return null;
             }
+
 
             // Florida
             if (nombre.StartsWith("Florida"))
@@ -254,5 +256,4 @@ namespace LoteriaWorkerWeb
 
 
     }
-}
 }
