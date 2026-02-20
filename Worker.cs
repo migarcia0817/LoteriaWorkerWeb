@@ -34,7 +34,7 @@ namespace LoteriaWorkerWeb
         { "Suerte 12:30 PM", "Suerte_1230_PM"},
         { "Suerte 6:00 PM", "Suerte_600_PM"},
         { "Primera 12 PM", "Primera_1200_PM"},
-        { "Primera 8 PM", "Primera_800_PM"},
+        { "Primera 7 PM", "Primera_700_PM"},
         { "Q.Real Tarde 12:55 PM", "QRealTarde_1255_PM" },
         { "FL.Tarde 2:30 PM", "FLTarde_230_PM" },
         { "FL.Noche 10:45 PM", "FLNoche_1045_PM" },
@@ -125,8 +125,8 @@ namespace LoteriaWorkerWeb
             {
                 if (horaNormalizada == "12:00 PM")
                     return "Primera 12 PM";
-                else if (horaNormalizada == "8:00 PM")
-                    return "Primera 8 PM";
+                else if (horaNormalizada == "7:00 PM")
+                    return "Primera 7 PM";
             }
 
             // La Suerte
