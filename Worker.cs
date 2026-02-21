@@ -118,7 +118,12 @@ namespace LoteriaWorkerWeb
 
             // Anguilla
             if (nombre.StartsWith("Anguilla"))
-                return $"Anguilla {horaNormalizada}";
+            {
+                if (AnguillaHoras.ContainsKey(horaNormalizada))
+                    return $"Anguilla {horaNormalizada}";
+                else
+                    return null; // ⚠️ Hora inválida, se omite
+            }
 
             // La Primera
             if (nombre.StartsWith("La Primera"))
