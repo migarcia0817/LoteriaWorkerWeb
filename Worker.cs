@@ -114,16 +114,52 @@ namespace LoteriaWorkerWeb
                 return null; // ⚠️ devolver null explícito si no hay nombre
 
             // Centralizar la normalización en HoraHelper
-            string horaNormalizada = HoraHelper.Normalizar(hora);
+         //   string horaNormalizada = HoraHelper.Normalizar(hora);
 
-         
+            string horaNormalizada; 
+            if (DateTime.TryParse(hora, out var dt))
+                horaNormalizada = dt.ToString("h:mm tt"); // ejemplo: "8:00 AM"
+                else horaNormalizada = hora.Trim();
             // Anguilla
+            //  if (nombre.StartsWith("Anguilla"))
+            //   {
+            //        if (HoraHelper.AnguillaHoras.TryGetValue(horaNormalizada, out var horaFinal))
+            //            return $"Anguilla {horaFinal}"; // ✅ usar el valor del diccionario
+            //        else
+            //            return null; // ⚠️ Hora inválida, se omite
+            //    }
             if (nombre.StartsWith("Anguilla"))
             {
-                if (HoraHelper.AnguillaHoras.ContainsKey(horaNormalizada))
-                    return $"Anguilla {horaNormalizada}";
-                else
-                    return null; // ⚠️ Hora inválida, se omite
+                if (horaNormalizada == "8:00 AM")
+                    return "Anguilla 08:00 AM";
+                if (horaNormalizada == "9:00 AM")
+                    return "Anguilla 09:00 AM";
+                if (horaNormalizada == "10:00 AM")
+                    return "Anguilla 10:00 AM";
+                if (horaNormalizada == "11:00 AM")
+                    return "Anguilla 11:00 AM";
+                if (horaNormalizada == "12:00 PM")
+                    return "Anguilla 12:00 PM";
+                if (horaNormalizada == "1:00 PM")
+                    return "Anguilla 1:00 PM";
+                if (horaNormalizada == "2:00 PM")
+                    return "Anguilla 2:00 PM";
+                if (horaNormalizada == "3:00 PM") 
+                    return "Anguilla 3:00 PM";
+                if (horaNormalizada == "4:00 PM")
+                    return "Anguilla 4:00 PM";
+                if (horaNormalizada == "5:00 PM")
+                    return "Anguilla 5:00 PM";
+                if (horaNormalizada == "6:00 PM")
+                    return "Anguilla 6:00 PM";
+                if (horaNormalizada == "7:00 PM")
+                    return "Anguilla 7:00 PM";
+                if (horaNormalizada == "8:00 PM")
+                    return "Anguilla 8:00 PM";
+                if (horaNormalizada == "9:00 PM") 
+                    return "Anguilla 9:00 PM";
+
+
             }
 
 
