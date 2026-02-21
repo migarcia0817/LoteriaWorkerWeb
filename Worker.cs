@@ -108,7 +108,7 @@ namespace LoteriaWorkerWeb
             return resultados;
         }
 
-        private string NormalizarNombre(string nombre, string hora)
+        private string? NormalizarNombre(string nombre, string hora)
         {
             if (string.IsNullOrWhiteSpace(nombre))
                 return null; // ⚠️ devolver null explícito si no hay nombre
@@ -119,7 +119,7 @@ namespace LoteriaWorkerWeb
             // Anguilla
             if (nombre.StartsWith("Anguilla"))
             {
-                if (AnguillaHoras.ContainsKey(horaNormalizada))
+                if (HoraHelper.AnguillaHoras.ContainsKey(horaNormalizada))
                     return $"Anguilla {horaNormalizada}";
                 else
                     return null; // ⚠️ Hora inválida, se omite
@@ -132,6 +132,8 @@ namespace LoteriaWorkerWeb
                     return "Primera 12 PM";
                 else if (horaNormalizada == "7:00 PM")
                     return "Primera 7 PM";
+                else if (horaNormalizada == "8:00 PM")
+                    return "Primera 8 PM";
             }
 
             // La Suerte
@@ -166,7 +168,6 @@ namespace LoteriaWorkerWeb
                 return null;
             }
 
-
             // Florida
             if (nombre.StartsWith("Florida"))
             {
@@ -175,7 +176,6 @@ namespace LoteriaWorkerWeb
                 else if (horaNormalizada.Contains("10:45 PM"))
                     return "FL.Noche 10:45 PM";
             }
-
 
             // New York
             if (nombre.StartsWith("New York"))

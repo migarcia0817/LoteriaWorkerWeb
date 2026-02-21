@@ -5,7 +5,7 @@ namespace LoteriaWorkerWeb.Helpers
 {
     public static class HoraHelper
     {
-        private static readonly Dictionary<string, string> AnguillaHoras = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> AnguillaHoras = new Dictionary<string, string>
         {
             { "8:00 AM", "08:00 AM" },
             { "9:00 AM", "09:00 AM" },
