@@ -116,6 +116,7 @@ namespace LoteriaWorkerWeb
             // Centralizar la normalización en HoraHelper
             string horaNormalizada = HoraHelper.Normalizar(hora);
 
+         
             // Anguilla
             if (nombre.StartsWith("Anguilla"))
             {
@@ -124,6 +125,7 @@ namespace LoteriaWorkerWeb
                 else
                     return null; // ⚠️ Hora inválida, se omite
             }
+
 
             // La Primera
             if (nombre.StartsWith("La Primera"))
