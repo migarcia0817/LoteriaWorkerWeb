@@ -228,8 +228,27 @@ namespace LoteriaWorkerWeb
                 return "Leisa 8:55 PM";
 
             // Nacional
+            // if (nombre.StartsWith("Nacional"))
+            //   return horaNormalizada.Contains("2:55 PM") ? "Nac.Tarde 2:55 PM" : "Nac.Noche 9:00 PM";
+            // Nacional
             if (nombre.StartsWith("Nacional"))
-                return horaNormalizada.Contains("2:55 PM") ? "Nac.Tarde 2:55 PM" : "Nac.Noche 9:00 PM";
+            {
+                var hoy = DateTime.Today.DayOfWeek;
+
+                if (hoy == DayOfWeek.Sunday)
+                {
+                    // ✅ Los domingos se devuelve NacDomingo
+                    return "NacDomingo_600_PM";
+                }
+                else
+                {
+                    // ✅ De lunes a sábado se mantiene la lógica normal
+                    return horaNormalizada.Contains("2:55 PM")
+                        ? "Nac.Tarde 2:55 PM"
+                        : "NacNoche_900_PM";
+                }
+            }
+
 
             // Gana Más → Nac.Tarde
             if (nombre.StartsWith("Gana Más"))
