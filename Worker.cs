@@ -224,8 +224,25 @@ namespace LoteriaWorkerWeb
                 return "Loteka 7:55 PM";
 
             // Leidsa / Leisa
+            //  if (nombre.StartsWith("Leidsa") || nombre.StartsWith("Leisa"))
+            //    return "Leisa 8:55 PM";
+            // Leidsa / Leisa
             if (nombre.StartsWith("Leidsa") || nombre.StartsWith("Leisa"))
-                return "Leisa 8:55 PM";
+            {
+                var hoy = DateTime.Today.DayOfWeek;
+
+                if (hoy == DayOfWeek.Sunday)
+                {
+                    // ✅ Los domingos se devuelve LeisaDomingo
+                    return "LeisaDomingo_400_PM";
+                }
+                else
+                {
+                    // ✅ De lunes a sábado se mantiene la lógica normal
+                    return "Leisa_855_PM";
+                }
+            }
+
 
             // Nacional
             // if (nombre.StartsWith("Nacional"))
