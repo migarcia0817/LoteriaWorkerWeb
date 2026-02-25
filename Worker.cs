@@ -41,7 +41,13 @@ namespace LoteriaWorkerWeb
         { "Loteka 7:55 PM", "Loteka_755_PM"},
         { "Leisa 8:55 PM", "Leisa_855_PM"},
         { "Nac.Tarde 2:55 PM", "NacTarde_255_PM"},
-        { "Nac.Noche 9:00 PM", "NacNoche_900_PM"}
+        { "Nac.Noche 9:00 PM", "NacNoche_900_PM"},
+        { "Haiti Bolet 9:30 AM", "HaitiBolet_930_AM" },
+        { "Haiti Bolet 10:30 AM", "HaitiBolet_1030_AM" },
+        { "Haiti Bolet 11:30 AM", "HaitiBolet_1130_AM" },
+        { "Haiti Bolet 5:30 PM", "HaitiBolet_530_PM" },
+        { "Haiti Bolet 6:30 PM", "HaitiBolet_630_PM" },
+        { "Haiti Bolet 7:30 PM", "HaitiBolet_730_PM" }
     };
 
         public Worker(ILogger<Worker> logger)
@@ -265,13 +271,32 @@ namespace LoteriaWorkerWeb
                         : "NacNoche_900_PM";
                 }
             }
+            if (nombre.StartsWith("Haiti Bolet"))
+            {
+                if (horaNormalizada.Contains("9:30"))
+                    return "Haiti Bolet 9:30 AM";
+                if (horaNormalizada.Contains("10:30"))
+                    return "Haiti Bolet 10:30 AM";
+                if (horaNormalizada.Contains("11:30"))
+                    return "Haiti Bolet 11:30 AM";
+                if (horaNormalizada.Contains("5:30"))
+                    return "Haiti Bolet 5:30 PM";
+                if (horaNormalizada.Contains("6:30"))
+                    return "Haiti Bolet 6:30 PM";
+                if (horaNormalizada.Contains("7:30"))
+                    return "Haiti Bolet 7:30 PM";
+
+                _logger.LogWarning($"⚠️ No se encontró clave para Haiti Bolet ({horaNormalizada}), se omite.");
+                return null;
+            }
+
 
 
             // Gana Más → Nac.Tarde
             if (nombre.StartsWith("Gana Más"))
                 return "Nac.Tarde 2:55 PM";
 
-            // 🔹 Si no se reconoce, loguear y devolver null
+           // 🔹 Si no se reconoce, loguear y devolver null
             _logger.LogWarning($"⚠️ Nombre de lotería no reconocido: {nombre} ({horaNormalizada}), se omite.");
             return null;
         }
@@ -293,11 +318,13 @@ namespace LoteriaWorkerWeb
                 var hora = grupo.First().Hora;
 
                 // Excluir loterías no deseadas
-                if (loteriaNombre.Contains("Haiti Bolet") || loteriaNombre.Contains("LoteDom"))
+                // Excluir loterías no deseadas
+                if (loteriaNombre.Contains("LoteDom"))
                 {
                     _logger.LogInformation($"⏭️ Excluyendo {loteriaNombre}");
                     continue;
                 }
+
 
                 // Normalizar nombre
                 var nombreNormalizado = NormalizarNombre(loteriaNombre, hora);
