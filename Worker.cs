@@ -247,7 +247,7 @@ namespace LoteriaWorkerWeb
                 else
                 {
                     // ✅ De lunes a sábado se mantiene la lógica normal
-                    return "Leisa_855_PM";
+                    return "Leisa 8:55 PM";
                 }
             }
 
@@ -270,7 +270,7 @@ namespace LoteriaWorkerWeb
                     // ✅ De lunes a sábado se mantiene la lógica normal
                     return horaNormalizada.Contains("2:40 PM")
                         ? "Nac.Tarde 2:40 PM"
-                        : "NacNoche_900_PM";
+                        : "Nac.Noche 9:00 PM";
                 }
             }
             if (nombre.StartsWith("Haiti Bolet"))
