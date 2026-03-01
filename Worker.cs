@@ -41,7 +41,7 @@ namespace LoteriaWorkerWeb
         { "Loteka 7:55 PM", "Loteka_755_PM"},
         { "Nac.Tarde 2:40 PM", "NacTarde_240_PM"},
         { "Nacional", "NacNoche_900_PM"},
-        { "Leidsa", "Leidsa_850_PM"},,    
+        { "Leidsa", "Leidsa_850_PM"},    
         { "Haiti Bolet 9:30 AM", "HaitiBolet_930_AM" },
         { "Haiti Bolet 10:30 AM", "HaitiBolet_1030_AM" },
         { "Haiti Bolet 11:30 AM", "HaitiBolet_1130_AM" },
@@ -240,14 +240,14 @@ namespace LoteriaWorkerWeb
                 if (hoy == DayOfWeek.Sunday)
                 {
                     // ✅ Los domingos se devuelve LeisaDomingo
-                    return "Leidsa_850_PM";
+                    return "Leidsa";
                 }
                 else
                 {
                     // ✅ De lunes a sábado se mantiene la lógica normal
-                    // return "Leisa 8:55 PM";
-                    return horaNormalizada.Contains("8:50 PM")
-                        ? "Leisa"
+                     return "Leidsa";
+                  //  return horaNormalizada.Contains("8:50 PM")
+                           // "Leisa";
                 }
             }
 
@@ -263,7 +263,7 @@ namespace LoteriaWorkerWeb
                 if (hoy == DayOfWeek.Sunday)
                 {
                     // ✅ Los domingos se devuelve NacDomingo
-                    return "NacNoche_900_PM";
+                    return "Nacional";
 
                 }
                 else
@@ -271,7 +271,7 @@ namespace LoteriaWorkerWeb
                     // ✅ De lunes a sábado se mantiene la lógica normal
                     return horaNormalizada.Contains("2:40 PM")
                         ? "Nac.Tarde 2:40 PM"
-                        : "Nac.Noche 9:00 PM";
+                        : "Nacional";
                 }
             }
             if (nombre.StartsWith("Haiti Bolet"))
