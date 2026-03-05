@@ -164,6 +164,8 @@ namespace LoteriaWorkerWeb
                     return "Anguilla 8:00 PM";
                 if (horaNormalizada == "9:00 PM") 
                     return "Anguilla 9:00 PM";
+                if (horaNormalizada == "10:00 PM")
+                    return "Anguilla 10:00 PM";
 
 
             }
