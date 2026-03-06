@@ -219,8 +219,8 @@ namespace LoteriaWorkerWeb
             {
                 if (horaNormalizada.Contains("2:30 PM"))
                     return "FL.Tarde 2:30 PM";
-                else if (horaNormalizada.Contains("10:45 PM"))
-                    return "FL.Noche 10:45 PM";
+                else if (horaNormalizada.Contains("10:25 PM"))
+                    return "FL.Noche 10:25 PM";
             }
 
             // New York
