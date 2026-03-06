@@ -27,6 +27,7 @@ namespace LoteriaWorkerWeb
         { "Anguilla 7:00 PM", "Anguilla_700_PM" },
         { "Anguilla 8:00 PM", "Anguilla_800_PM" },
         { "Anguilla 9:00 PM", "Anguilla_900_PM" },
+        { "Anguilla 10:00 PM", "Anguilla_1000_PM"},
         { "NY.Tarde 3:30 PM", "NYTarde_330_PM"},
         { "NY.Noche 11:30 PM", "NYNoche_1130_PM"},
         { "King Lotery 12:30 PM", "KingLot_1230_PM"},
@@ -37,7 +38,7 @@ namespace LoteriaWorkerWeb
         { "Primera 7 PM", "Primera_700_PM"},
         { "Q.Real Tarde 12:55 PM", "QRealTarde_1255_PM" },
         { "FL.Tarde 2:30 PM", "FLTarde_230_PM" },
-        { "FL.Noche 10:45 PM", "FLNoche_1045_PM" },
+        { "FL.Noche 10:25 PM", "FLNoche_1025_PM" },
         { "Loteka 7:55 PM", "Loteka_755_PM"},
         { "Nac.Tarde 2:40 PM", "NacTarde_240_PM"},
         { "Nacional", "NacNoche_900_PM"},
@@ -219,9 +220,10 @@ namespace LoteriaWorkerWeb
             {
                 if (horaNormalizada.Contains("2:30 PM"))
                     return "FL.Tarde 2:30 PM";
-                else if (horaNormalizada.Contains("10:25 PM"))
-                    return "FL.Noche 10:25 PM";
+                else if (horaNormalizada.Contains("10:45 PM") || horaNormalizada.Contains("10:25 PM"))
+                    return "FL.Noche 10:25 PM";  // 👈 siempre normaliza a 10:25 PM
             }
+
 
             // New York
             if (nombre.StartsWith("New York"))
