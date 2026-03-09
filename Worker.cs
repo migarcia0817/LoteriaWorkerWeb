@@ -220,6 +220,8 @@ namespace LoteriaWorkerWeb
             {
                 if (horaNormalizada.Contains("2:30 PM"))
                     return "FL.Tarde 2:30 PM";
+                if (horaNormalizada.Contains("1:30 PM"))
+                    return "FL.Tarde 2:30 PM";
                 else if (horaNormalizada.Contains("10:45 PM") || horaNormalizada.Contains("10:25 PM"))
                     return "FL.Noche 10:25 PM";  // 👈 siempre normaliza a 10:25 PM
             }
