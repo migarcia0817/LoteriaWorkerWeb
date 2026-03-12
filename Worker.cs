@@ -40,7 +40,7 @@ namespace LoteriaWorkerWeb
         { "FL.Tarde 2:30 PM", "FLTarde_230_PM" },
         { "FL.Noche 10:25 PM", "FLNoche_1025_PM" },
         { "Loteka 7:55 PM", "Loteka_755_PM"},
-        { "Nac.Tarde 2:40 PM", "NacTarde_240_PM"},
+        { "Gana Mas 2:30 PM", "Gana_Mas_230_PM"},
         { "Nacional", "NacNoche_900_PM"},
         { "Leidsa", "Leidsa_850_PM"},    
         { "Haiti Bolet 9:30 AM", "HaitiBolet_930_AM" },
@@ -275,8 +275,8 @@ namespace LoteriaWorkerWeb
                 else
                 {
                     // ✅ De lunes a sábado se mantiene la lógica normal
-                    return horaNormalizada.Contains("2:40 PM")
-                        ? "Nac.Tarde 2:40 PM"
+                    return horaNormalizada.Contains("2:30 PM")
+                        ? "Gana Mas 2:30 PM"
                         : "Nacional";
                 }
             }
@@ -303,7 +303,7 @@ namespace LoteriaWorkerWeb
 
             // Gana Más → Nac.Tarde
             if (nombre.StartsWith("Gana Más"))
-               return "Nac.Tarde 2:40 PM";
+               return "Gana Mas 2:30 PM";
 
            // 🔹 Si no se reconoce, loguear y devolver null
             _logger.LogWarning($"⚠️ Nombre de lotería no reconocido: {nombre} ({horaNormalizada}), se omite.");
