@@ -229,7 +229,7 @@ namespace LoteriaWorkerWeb
 
             // New York
             if (nombre.StartsWith("New York"))
-                return horaNormalizada.Contains("3:30 PM") ? "NY.Tarde 3:30 PM" : "NY.Noche 11:30 PM";
+                return horaNormalizada.Contains("2:30 PM") ? "NY.Tarde 3:30 PM" : "NY.Noche 11:30 PM";
 
             // Loteka
             if (nombre.StartsWith("Loteka"))
