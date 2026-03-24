@@ -29,7 +29,7 @@ namespace LoteriaWorkerWeb
         { "Anguilla 9:00 PM", "Anguilla_900_PM" },
         { "Anguilla 10:00 PM", "Anguilla_1000_PM"},
         { "NY.Tarde 3:30 PM", "NYTarde_330_PM"},
-        { "NY.Noche 11:30 PM", "NYNoche_1130_PM"},
+        { "NY.Noche 11:30 PM", "NY.Noche 11:30 PM"},
         { "King Lotery 12:30 PM", "KingLot_1230_PM"},
         { "King Lotery 7:30 PM", "KingLot_730_PM"},
         { "Suerte 12:30 PM", "Suerte_1230_PM"},
@@ -43,12 +43,12 @@ namespace LoteriaWorkerWeb
         { "Gana Mas 2:30 PM", "Gana_Mas_230_PM"},
         { "Nacional", "NacNoche_900_PM"},
         { "Leidsa", "Leidsa_850_PM"},    
-        { "Haiti Bolet 9:30 AM", "HaitiBolet_930_AM" },
-        { "Haiti Bolet 10:30 AM", "HaitiBolet_1030_AM" },
-        { "Haiti Bolet 11:30 AM", "HaitiBolet_1130_AM" },
-        { "Haiti Bolet 5:30 PM", "HaitiBolet_530_PM" },
-        { "Haiti Bolet 6:30 PM", "HaitiBolet_630_PM" },
-        { "Haiti Bolet 7:30 PM", "HaitiBolet_730_PM" }
+        { "Haiti Bolet 9:30 AM", "Haiti_Bolet_930_AM" },
+        { "Haiti Bolet 10:30 AM", "Haiti_Bolet_1030_AM" },
+        { "Haiti Bolet 11:30 AM", "Haiti_Bolet_1130_AM" },
+        { "Haiti Bolet 5:30 PM", "Haiti_Bolet_530_PM" },
+        { "Haiti Bolet 6:30 PM", "Haiti_Bolet_630_PM" },
+        { "Haiti Bolet 7:30 PM", "Haiti_Bolet_730_PM" }
     };
 
         public Worker(ILogger<Worker> logger)
