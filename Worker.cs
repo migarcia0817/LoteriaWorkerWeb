@@ -38,7 +38,7 @@ namespace LoteriaWorkerWeb
         { "Primera 7 PM", "Primera_700_PM"},
         { "Q.Real Tarde 12:55 PM", "QRealTarde_1255_PM" },
         { "FL.Tarde 1:30 PM", "FLTarde_130_PM"},
-        { "FL.Noche 10:25 PM", "FLNoche_1025_PM" },
+        { "FL.Noche 9:45 PM", "FLNoche_1025_PM" },
         { "Loteka 7:55 PM", "Loteka_755_PM"},
         { "Gana Mas 2:30 PM", "Gana_Mas_230_PM"},
         { "Nacional", "NacNoche_900_PM"},
@@ -222,8 +222,8 @@ namespace LoteriaWorkerWeb
                     return "FL.Tarde 2:30 PM";
                 if (horaNormalizada.Contains("1:30 PM"))
                     return "FL.Tarde 1:30 PM";
-                else if (horaNormalizada.Contains("10:45 PM") || horaNormalizada.Contains("10:25 PM"))
-                    return "FL.Noche 10:25 PM";  // 👈 siempre normaliza a 10:25 PM
+                else if (horaNormalizada.Contains("10:25 PM") || horaNormalizada.Contains("9:45 PM"))
+                    return "FL.Noche 9:45 PM";  // 👈 siempre normaliza a 10:25 PM
             }
 
 
