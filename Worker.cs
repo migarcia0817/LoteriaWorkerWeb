@@ -176,9 +176,9 @@ namespace LoteriaWorkerWeb
             if (nombre.StartsWith("La Primera"))
             {
                 if (horaNormalizada == "12:00 PM")
-                    return "Primera 12 PM";
+                    return "Primera 12:00 PM";
                 else if (horaNormalizada == "7:00 PM")
-                    return "Primera 7 PM";
+                    return "Primera 7:00 PM";
                 else if (horaNormalizada == "8:00 PM")
                     return "Primera 8 PM";
             }
